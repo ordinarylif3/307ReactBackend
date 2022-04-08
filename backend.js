@@ -89,7 +89,7 @@ app.delete('/users/:id', (req,res) => {
         res.status(404).send('Resource not found.');
     else {
         deleteUser(result);
-        res.status(200).end();
+        res.status(204).end();
     }
 });
 
@@ -100,10 +100,17 @@ function deleteUser(user){
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).send(userToAdd);
 });
 
+
+function uniqueID() {
+    return Math.floor(Math.random() * Date.now())
+}
+
+
 function addUser(user){
+    user['id'] = uniqueID();
     users['users_list'].push(user);
 }
 
